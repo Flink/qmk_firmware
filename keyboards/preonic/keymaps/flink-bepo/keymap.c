@@ -38,7 +38,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+------|------+------+------+------+------+------|
  * | Bksp |   À  |   Y  |   X  |   .  |   K  |   '  |   Q  |   G  |   H  |   F  |  Ç   |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | Meta | Ctrl | Alt  | Lower|Shift |    Space    |AltGr | Raise|   %  |   W  | Enter|
+ * | Meta | Lower| Ctrl | Alt  |Shift |    Space    |AltGr | Raise|   %  |   W  | Enter|
  * `-----------------------------------------------------------------------------------'
  */
 [_MAIN] = {
@@ -46,7 +46,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   {KC_TAB,  BP_B,    BP_ECUT, BP_P,    BP_O,    BP_EGRV, BP_DCRC, BP_V,    BP_D,    BP_L,    BP_J,    BP_Z  },
   {KC_ESC,  BP_A,    BP_U,    BP_I,    BP_E,    BP_COMM, BP_C,    BP_T,    BP_S,    BP_R,    BP_N,    BP_M   },
   {KC_BSPC, BP_AGRV, BP_Y,    BP_X,    BP_DOT,  BP_K,    BP_APOS, BP_Q,    BP_G,    BP_H,    BP_F,    BP_CCED},
-  {KC_LGUI, KC_LCTL, KC_LALT, LOWER,   KC_LSFT, KC_SPC,  KC_SPC,  BP_ALGR, RAISE,   BP_PERC, BP_W,    KC_ENT }
+  {KC_LGUI, LOWER,   KC_LCTL, KC_LALT, KC_LSFT, KC_SPC,  KC_SPC,  BP_ALGR, RAISE,   BP_PERC, BP_W,    KC_ENT }
 },
 
 /* Lower
