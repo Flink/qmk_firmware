@@ -1,4 +1,4 @@
-#include "ergodox_ez.h"
+#include "ergodox.h"
 #include "debug.h"
 #include "action_layer.h"
 #include "keymap_extras/keymap_french.h"
@@ -19,7 +19,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |--------+------+------+------+------+------| Enter|           |Enter |------+------+------+------+------+--------|
  * | Ê/Shift|   À  |   Y  |   X  |   .  |   K  |      |           |      |   '  |   Q  |   G  |   H  |   F  |   Ç    |
  * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
- *   |      |   $  |      |      |      |                                       |   W  |   %  |      |   =  |      |
+ *   |      |   $  | Prev | Play | Next |                                       |   W  |   %  |      |   =  |      |
  *   `----------------------------------'                                       `----------------------------------'
  *                                        ,-------------.       ,-------------.
  *                                        | Alt  | AltGr|       | Calc |  LGui  |
@@ -37,7 +37,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TAB,         KC_Q,         KC_W,   KC_E,   KC_R,   KC_T,   KC_BSPC,
         KC_ESC,         KC_A,         KC_S,   KC_D,   KC_F,   KC_G,
         SFT_T(FR_LESS), KC_Z,         KC_X,   KC_C,   KC_V,   KC_B,   KC_ENT,
-        KC_NO,          KC_GRV,       KC_NO,  KC_NO,  KC_NO,
+        KC_NO,          KC_GRV,       KC_MPRV,KC_MPLY,KC_MNXT,
                                                     KC_LALT,  KC_RALT,
                                                            MO(NUML),
                                           KC_SPC, KC_LCTL, MO(SPFN),
@@ -146,12 +146,12 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
 };
 
 // Runs just one time when the keyboard initializes.
-void * matrix_init_user(void) {
+void matrix_init_user(void) {
 
 };
 
 // Runs constantly in the background, in a loop.
-void * matrix_scan_user(void) {
+void matrix_scan_user(void) {
 
     uint8_t layer = biton32(layer_state);
 
