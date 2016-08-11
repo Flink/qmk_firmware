@@ -10,13 +10,15 @@
 // The underscores don't mean anything - you can have a layer called STUFF or any other name.
 // Layer names don't all need to be of the same length, obviously, and you can also skip them
 // entirely and just use numbers.
-#define _MAIN 0
-#define _LOWER 1
-#define _RAISE 2
-#define _ADJUST 3
+#define _GATITAC 0
+#define _FLINK 1
+#define _LOWER 2
+#define _RAISE 3
+#define _ADJUST 4
 
 enum preonic_keycodes {
-  MAIN = SAFE_RANGE,
+  GATITAC = SAFE_RANGE,
+  FLINK,
   LOWER,
   RAISE,
   BACKLIT
@@ -28,7 +30,28 @@ enum preonic_keycodes {
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
-/* Main (bepo)
+/* Bepo (Gatitac)
+ * ,-----------------------------------------------------------------------------------.
+ * |   $  |   "  |   «  |   »  |   (  |   )  |   @  |   +  |   -  |   /  |   *  |  =   |
+ * |------+------+------+------+------+------+------+------+------+------+------+------|
+ * | Enter|   B  |   É  |   P  |   O  |   È  |   ^  |   V  |   D  |   L  |   J  |  Z   |
+ * |------+------+------+------+------+-------------+------+------+------+------+------|
+ * | Bksp |   A  |   U  |   I  |   E  |   ,  |   C  |   T  |   S  |   R  |   N  |  M   |
+ * |------+------+------+------+------+------|------+------+------+------+------+------|
+ * | Esc  |   À  |   Y  |   X  |   .  |   K  |   '  |   Q  |   G  |   H  |   F  |  Ç   |
+ * |------+------+------+------+------+------+------+------+------+------+------+------|
+ * | Tab  | Lower| Ctrl | Alt  |Shift |    Space    |AltGr | Raise|   %  |   W  | Meta |
+ * `-----------------------------------------------------------------------------------'
+ */
+[_GATITAC] = {
+  {BP_DLR,  BP_DQOT, BP_LGIL, BP_RGIL, BP_LPRN, BP_RPRN, BP_AT,   BP_PLUS, BP_MINS, BP_SLSH, BP_ASTR, BP_EQL },
+  {KC_ENT,  BP_B,    BP_ECUT, BP_P,    BP_O,    BP_EGRV, BP_DCRC, BP_V,    BP_D,    BP_L,    BP_J,    BP_Z  },
+  {KC_BSPC, BP_A,    BP_U,    BP_I,    BP_E,    BP_COMM, BP_C,    BP_T,    BP_S,    BP_R,    BP_N,    BP_M   },
+  {KC_ESC,  BP_AGRV, BP_Y,    BP_X,    BP_DOT,  BP_K,    BP_APOS, BP_Q,    BP_G,    BP_H,    BP_F,    BP_CCED},
+  {KC_TAB,  LOWER,   KC_LCTL, KC_LALT, KC_LSFT, KC_SPC,  KC_SPC,  BP_ALGR, RAISE,   BP_PERC, BP_W,    KC_LGUI}
+},
+
+/* Bepo (Flink)
  * ,-----------------------------------------------------------------------------------.
  * |   $  |   "  |   «  |   »  |   (  |   )  |   @  |   +  |   -  |   /  |   *  |  =   |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
@@ -41,7 +64,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * | Meta | Lower| Ctrl | Alt  |Shift |    Space    |AltGr | Raise|   %  |   W  | Enter|
  * `-----------------------------------------------------------------------------------'
  */
-[_MAIN] = {
+[_FLINK] = {
   {BP_DLR,  BP_DQOT, BP_LGIL, BP_RGIL, BP_LPRN, BP_RPRN, BP_AT,   BP_PLUS, BP_MINS, BP_SLSH, BP_ASTR, BP_EQL },
   {KC_TAB,  BP_B,    BP_ECUT, BP_P,    BP_O,    BP_EGRV, BP_DCRC, BP_V,    BP_D,    BP_L,    BP_J,    BP_Z  },
   {KC_ESC,  BP_A,    BP_U,    BP_I,    BP_E,    BP_COMM, BP_C,    BP_T,    BP_S,    BP_R,    BP_N,    BP_M   },
@@ -91,6 +114,26 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   {_______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______}
 },
 
+/* Adjust (Lower + Raise)
+ * ,-----------------------------------------------------------------------------------.
+ * |  F1  |  F2  |  F3  |  F4  |  F5  |  F6  |  F7  |  F8  |  F9  |  F10 |  F11 |  F12 |
+ * |------+------+------+------+------+------+------+------+------+------+------+------|
+ * |      | Reset|      |      |      |      |      |      |      |      |      |  Del |
+ * |------+------+------+------+------+-------------+------+------+------+------+------|
+ * |      |      |      |Aud on|AudOff|AGnorm|AGswap|Qwerty|Colemk|Dvorak|      |      |
+ * |------+------+------+------+------+------|------+------+------+------+------+------|
+ * |      |Voice-|Voice+|Mus on|MusOff|MidiOn|MidOff|      |      |      |      |      |
+ * |------+------+------+------+------+------+------+------+------+------+------+------|
+ * |      |      |      |      |      |             |      |      |      |      |      |
+ * `-----------------------------------------------------------------------------------'
+ */
+[_ADJUST] = {
+  {_______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______},
+  {_______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______},
+  {_______, _______, _______, AU_ON,   AU_OFF,  _______, _______, GATITAC, FLINK,   _______, _______, _______},
+  {_______, MUV_DE,  MUV_IN,  MU_ON,   MU_OFF,  _______, _______, _______, _______, _______, _______, _______},
+  {_______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______}
+}
 
 };
 
@@ -101,6 +144,9 @@ float tone_startup[][2] = {
   {NOTE_DS6, 20},
   {NOTE_B6, 8}
 };
+
+float tone_gatitac[][2]   = SONG(QWERTY_SOUND);
+float tone_flink[][2]     = SONG(DVORAK_SOUND);
 
 float tone_goodbye[][2] = SONG(GOODBYE_SOUND);
 
@@ -114,6 +160,24 @@ void persistant_default_layer_set(uint16_t default_layer) {
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
+        case GATITAC:
+          if (record->event.pressed) {
+            #ifdef AUDIO_ENABLE
+              PLAY_NOTE_ARRAY(tone_gatitac, false, 0);
+            #endif
+            persistant_default_layer_set(1UL<<_GATITAC);
+          }
+          return false;
+          break;
+        case FLINK:
+          if (record->event.pressed) {
+            #ifdef AUDIO_ENABLE
+              PLAY_NOTE_ARRAY(tone_flink, false, 0);
+            #endif
+            persistant_default_layer_set(1UL<<_FLINK);
+          }
+          return false;
+          break;
         case LOWER:
           if (record->event.pressed) {
             layer_on(_LOWER);
