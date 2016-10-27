@@ -35,17 +35,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+-------------+------+------+------+------+------|
  * | Esc  |   A  |   U  |   I  |   E  |   ,  |   C  |   T  |   S  |   R  |   N  |  M   |
  * |------+------+------+------+------+------|------+------+------+------+------+------|
- * | Meta |   À  |   Y  |   X  |   .  |   K  |   '  |   Q  |   G  |   H  |   F  |  Ç   |
+ * |   Ê  |   À  |   Y  |   X  |   .  |   K  |   '  |   Q  |   G  |   H  |   F  |  Ç   |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | Enter| Lower| Ctrl | Alt  |Shift |    Space    |AltGr | Raise|   %  |   W  | Bksp |
+ * | Enter| Meta |Lower | Alt  |Shift | Space/Ctrl  |AltGr | Raise|   %  |   W  | Bksp |
  * `-----------------------------------------------------------------------------------'
  */
 [_BEPO] = {
   {BP_DLR,  BP_DQOT, BP_LGIL, BP_RGIL, BP_LPRN, BP_RPRN, BP_AT,   BP_PLUS, BP_MINS, BP_SLSH, BP_ASTR, BP_EQL },
   {KC_TAB,  BP_B,    BP_ECUT, BP_P,    BP_O,    BP_EGRV, BP_DCRC, BP_V,    BP_D,    BP_L,    BP_J,    BP_Z  },
   {KC_ESC,  BP_A,    BP_U,    BP_I,    BP_E,    BP_COMM, BP_C,    BP_T,    BP_S,    BP_R,    BP_N,    BP_M   },
-  {KC_LGUI, BP_AGRV, BP_Y,    BP_X,    BP_DOT,  BP_K,    BP_APOS, BP_Q,    BP_G,    BP_H,    BP_F,    BP_CCED},
-  {KC_ENT,  LOWER,   KC_LCTL, KC_LALT, KC_LSFT, KC_SPC,  KC_SPC,  BP_ALGR, RAISE,   BP_PERC, BP_W,    KC_BSPC}
+  {BP_ECRC, BP_AGRV, BP_Y,    BP_X,    BP_DOT,  BP_K,    BP_APOS, BP_Q,    BP_G,    BP_H,    BP_F,    BP_CCED},
+  {KC_ENT,  KC_LGUI, LOWER,   KC_LALT, KC_LSFT, CTL_T(KC_SPC),CTL_T(KC_SPC),  BP_ALGR, RAISE,   BP_PERC, BP_W,    KC_BSPC}
 },
 
 /* Lower
