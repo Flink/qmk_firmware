@@ -23,7 +23,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *   |      |      | Prev | Play | Next |                                       |      |      |   %  |   W  |      |
  *   `----------------------------------'                                       `----------------------------------'
  *                                        ,-------------.       ,-------------.
- *                                        | Alt  | AltGr|       |Ca/Ctl|  LGui  |
+ *                                        | LGui | AltGr|       |Ca/Ctl|  Alt   |
  *                                 ,------|------|------|       |------+--------+------.
  *                                 |      |      |TMP L2|       |TMP L2|        |      |
  *                                 | Space| Ctrl |------|       |------| LShift | AltGr|
@@ -39,7 +39,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_ESC,         KC_A,         KC_S,   KC_D,   KC_F,   KC_G,
         SFT_T(BP_ECRC), KC_Z,         KC_X,   KC_C,   KC_V,   KC_B,   KC_ENT,
         KC_NO,          KC_NO,        KC_MPRV,KC_MPLY,KC_MNXT,
-                                                    KC_LALT,  KC_RALT,
+                                                    KC_LGUI,  KC_RALT,
                                                            MO(NUML),
                                           KC_SPC, KC_LCTL, MO(SPFN),
         // right hand
@@ -48,7 +48,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                           KC_H,   KC_J,   KC_K,   KC_L,   KC_SCLN,          KC_QUOT,
              KC_ENT,      KC_N,   KC_M,   KC_COMM,KC_DOT, KC_SLSH,          FR_ASTR,
                                   KC_NO,  KC_NO,  BP_PERC,BP_W,             KC_NO,
-             CTL_T(KC_CALC),  KC_LGUI,
+             CTL_T(KC_CALC),  KC_LALT,
              MO(NUML),
              MO(SPFN), KC_LSFT,KC_RALT
     ),
