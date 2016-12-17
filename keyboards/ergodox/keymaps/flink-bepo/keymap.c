@@ -9,8 +9,6 @@
 #define SPFN 1 // space fn layer
 #define NUML 2 // numeric layer
 
-#define EPRM M(1) // Macro 1: Reset EEPROM
-
 enum {
   META_ALT = 0,
   CTL_SFT = 1
