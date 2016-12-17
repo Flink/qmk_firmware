@@ -1,4 +1,6 @@
 #include "atomic.h"
+#include "action_layer.h"
+#include "eeconfig.h"
 #include "keymap_extras/keymap_bepo.h"
 
 // Fillers to make layering more clear
@@ -10,29 +12,45 @@
 #define _BEPO 0
 #define _LW 1
 #define _RS 2
+#define _ADJUST 3
+
+enum atomic_keycodes {
+  BEPO = SAFE_RANGE,
+  LOWER,
+  RAISE,
+  BACKLIT
+};
+
+enum tap_dance_keys {
+  ESC_CALC = 0
+};
+
+qk_tap_dance_action_t tap_dance_actions[] = {
+  [ESC_CALC] = ACTION_TAP_DANCE_DOUBLE(KC_ESC, KC_CALC)
+};
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /* BEPO
  * .--------------------------------------------------------------------------------------------------------------------------------------.
- * | $      | "      | «      | »      | (      | )      |        | @      | +      | -      | /      | *      | =      | %      | CALC   |
+ * | $      | "      | «      | »      | (      | )      |        | @      | +      | -      | /      | *      | =      | %      |ESC/CALC|
  * |--------+--------+--------+--------+--------+--------+ Back   +--------+--------+--------+--------+--------+--------+-----------------|
- * | TAB    | B      | É      | P      | O      | È      | Space  | ^      | V      | D      | L      | J      | Z      | W      |        |
+ * | TAB    | B      | É      | P      | O      | È      | Space  | ^      | V      | D      | L      | J      | Z      | W      | PG UP  |
  * |--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+-----------------+--------|
  * |        | A      | U      | I      | E      | ,      |        | C      | T      | S      | R      | N      | M      |     RSHIFT      |
  * | LSHIFT +--------+--------+--------+--------+--------+ Enter  +--------+--------+--------+--------+--------------------------+--------|
- * |        | À      | Y      | X      | .      | K      |        | '      | Q      | G      | H      | F      | Ç      | UP     |        |
+ * |        | À      | Y      | X      | .      | K      |        | '      | Q      | G      | H      | F      | Ç      | UP     | PG DN  |
  * |--------+--------+--------+--------+--------+-----------------+--------+--------+--------+--------+-----------------+--------+--------|
- * | LCTRL  | META   | RAISE  | ALT    |     Space       | Delete |      Space      | ALT GR | LOWER  |        | LEFT   | DOWN   | RIGHT  |
+ * | LCTRL  | RAISE  |  META  | ALT    |     Space       | Delete |      Space      | ALT GR | LOWER  | RCTRL  | LEFT   | DOWN   | RIGHT  |
  * '--------------------------------------------------------------------------------------------------------------------------------------'
  */
 
  [_BEPO] = {
-  { BP_DLR,  BP_DQOT, BP_LGIL, BP_RGIL, BP_LPRN, BP_RPRN, KC_BSPC, BP_AT,   BP_PLUS, BP_MINS, BP_SLSH, BP_ASTR, BP_EQL,  BP_PERC, KC_CALC  },
-  { KC_TAB,  BP_B,    BP_ECUT, BP_P,    BP_O,    BP_EGRV, XXXXXXX, BP_DCRC, BP_V,    BP_D,    BP_L,    BP_J,    BP_Z,    BP_W,    XXXXXXX  },
-  { KC_LSFT, BP_A,    BP_U,    BP_I,    BP_E,    BP_COMM, KC_ENT,  BP_C,    BP_T,    BP_S,    BP_R,    BP_N,    BP_M,    KC_RSFT, XXXXXXX  },
-  { XXXXXXX, BP_AGRV, BP_Y,    BP_X,    BP_DOT,  BP_K,    XXXXXXX, BP_APOS, BP_Q,    BP_G,    BP_H,    BP_F,    BP_CCED, KC_UP,   XXXXXXX  },
-  { KC_LCTL, KC_LGUI, MO(_RS), KC_LALT, KC_SPC,  XXXXXXX, KC_DEL,  XXXXXXX, KC_SPC,  KC_RALT, MO(_LW), XXXXXXX, KC_LEFT, KC_DOWN, KC_RGHT  },
+  { BP_DLR,  BP_DQOT, BP_LGIL, BP_RGIL, BP_LPRN, BP_RPRN, KC_BSPC, BP_AT,   BP_PLUS, BP_MINS, BP_SLSH, BP_ASTR, BP_EQL,  BP_PERC, TD(ESC_CALC) },
+  { KC_TAB,  BP_B,    BP_ECUT, BP_P,    BP_O,    BP_EGRV, XXXXXXX, BP_DCRC, BP_V,    BP_D,    BP_L,    BP_J,    BP_Z,    BP_W,    KC_PGUP      },
+  { KC_LSFT, BP_A,    BP_U,    BP_I,    BP_E,    BP_COMM, KC_ENT,  BP_C,    BP_T,    BP_S,    BP_R,    BP_N,    BP_M,    KC_RSFT, XXXXXXX      },
+  { XXXXXXX, BP_AGRV, BP_Y,    BP_X,    BP_DOT,  BP_K,    XXXXXXX, BP_APOS, BP_Q,    BP_G,    BP_H,    BP_F,    BP_CCED, KC_UP,   KC_PGDN      },
+  { KC_LCTL, RAISE,   KC_LGUI, KC_LALT, KC_SPC,  XXXXXXX, KC_DEL,  XXXXXXX, KC_SPC,  KC_RALT, LOWER,   KC_RCTL, KC_LEFT, KC_DOWN, KC_RGHT      },
  },
 
 /* LOWERED
@@ -43,9 +61,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+-----------------+--------|
  * |        |        |        |        |        |        |        |        |        |        |        |        |        |                 |
  * |        +--------+--------+--------+--------+--------+        +--------+--------+--------+--------+--------------------------+--------|
- * |        |        |        |        |        |        |        |        |        |        |        |        |        | PG UP  |        |
+ * |        |        |        |        |        |        |        |        |        |        |        |        | HOME   |        | END    |
  * |--------+--------+--------+--------+--------+-----------------+--------+--------+--------+--------+-----------------+--------+--------|
- * |        |        |        |        |                 | Brite  |                 |        |        |        | HOME   | PG DN  | END    |
+ * |        |  PLAY  |  PREV  |  NEXT  |                 |        |                 |        |        |        |        |        |        |
  * '--------------------------------------------------------------------------------------------------------------------------------------'
  */
 
@@ -53,13 +71,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   { KC_ESC,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   _______, KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  KC_NLCK  },
   { _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______  },
   { _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______  },
-  { _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_PGUP, _______  },
-  { _______, _______, _______, _______, _______, _______, M(0),    _______, _______, _______, _______, _______, KC_HOME, KC_PGDN, KC_END   },
+  { _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_HOME, _______, KC_END   },
+  { _______, KC_MPLY, KC_MPRV, KC_MNXT, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______  },
  },
 
 /* RAISED
  * .--------------------------------------------------------------------------------------------------------------------------------------.
- * | RESET  |        |        |        |        |        |        |        |        |        |        |        |        |        |        |
+ * |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |
  * |--------+--------+--------+--------+--------+--------+ VOL UP +--------+--------+--------+--------+--------+--------+-----------------|
  * |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |
  * |--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+-----------------+--------|
@@ -72,11 +90,33 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 
  [_RS] = { /* RAISED */
-  { RESET,   _______, _______, _______, _______, _______, KC_VOLU, _______, _______, _______, _______, _______, _______, _______, _______  },
+  { _______, _______, _______, _______, _______, _______, KC_VOLU, _______, _______, _______, _______, _______, _______, _______, _______  },
   { _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______  },
   { _______, _______, _______, _______, _______, _______, KC_VOLD, _______, _______, _______, _______, _______, _______, _______, _______  },
   { _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______  },
   { _______, _______, _______, _______, KC_MUTE, _______, _______, _______, KC_MUTE, _______, _______, _______, _______, _______, _______, },
+ },
+
+/* ADJUST (LOWER + RAISE)
+ * .--------------------------------------------------------------------------------------------------------------------------------------.
+ * | RESET  |        |        |        |        |        |        |        |        |        |        |        |        |        |        |
+ * |--------+--------+--------+--------+--------+--------+        +--------+--------+--------+--------+--------+--------+-----------------|
+ * |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |
+ * |--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+-----------------+--------|
+ * |        |        |        |        |        |        |        |        |        |        |        |        |        |                 |
+ * |        +--------+--------+--------+--------+--------+        +--------+--------+--------+--------+--------------------------+--------|
+ * |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |
+ * |--------+--------+--------+--------+--------+-----------------+--------+--------+--------+--------+-----------------+--------+--------|
+ * |        |        |        |        |                 | Brite  |                 |        |        |        |        |        |        |
+ * '--------------------------------------------------------------------------------------------------------------------------------------'
+ */
+
+ [_ADJUST] = { /* ADJUST */
+  { RESET,   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______  },
+  { _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______  },
+  { _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______  },
+  { _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______  },
+  { _______, _______, _______, _______, _______, _______, BACKLIT, _______, _______, _______, _______, _______, _______, _______, _______, },
  },
 };
 
@@ -84,11 +124,48 @@ const uint16_t PROGMEM fn_actions[] = {
 
 };
 
-const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
-{
-  // MACRODOWN only works in this function
-      switch(id) {
-        case 0:
+void persistant_default_layer_set(uint16_t default_layer) {
+  eeconfig_update_default_layer(default_layer);
+  default_layer_set(default_layer);
+}
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+  switch (keycode) {
+        case BEPO:
+          if (record->event.pressed) {
+            persistant_default_layer_set(1UL<<_BEPO);
+          }
+          return false;
+          break;
+        case LOWER:
+          if (record->event.pressed) {
+            breathing_speed_set(2);
+            breathing_enable();
+            layer_on(_LW);
+            update_tri_layer(_LW, _RS, _ADJUST);
+          } else {
+            breathing_speed_set(1);
+            breathing_self_disable();
+            layer_off(_LW);
+            update_tri_layer(_LW, _RS, _ADJUST);
+          }
+          return false;
+          break;
+        case RAISE:
+          if (record->event.pressed) {
+            breathing_speed_set(3);
+            breathing_enable();
+            layer_on(_RS);
+            update_tri_layer(_LW, _RS, _ADJUST);
+          } else {
+            breathing_speed_set(1);
+            breathing_self_disable();
+            layer_off(_RS);
+            update_tri_layer(_LW, _RS, _ADJUST);
+          }
+          return false;
+          break;
+        case BACKLIT:
           if (record->event.pressed) {
             register_code(KC_RSFT);
             #ifdef BACKLIGHT_ENABLE
@@ -97,7 +174,12 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
           } else {
             unregister_code(KC_RSFT);
           }
-        break;
+          return false;
+          break;
       }
-    return MACRO_NONE;
+    return true;
 };
+
+void matrix_init_user(void) {
+  persistant_default_layer_set(1UL<<_BEPO);
+}
