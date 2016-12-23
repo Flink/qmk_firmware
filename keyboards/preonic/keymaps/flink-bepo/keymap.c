@@ -21,6 +21,14 @@ enum preonic_keycodes {
   RAISE
 };
 
+enum {
+  MA = 0
+};
+
+qk_tap_dance_action_t tap_dance_actions[] = {
+  [MA] = ACTION_TAP_DANCE_DOUBLE(KC_LGUI, KC_LALT),
+};
+
 // Fillers to make layering more clear
 #define _______ KC_TRNS
 #define XXXXXXX KC_NO
@@ -35,17 +43,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+-------------+------+------+------+------+------|
  * | Esc  |   A  |   U  |   I  |   E  |   ,  |   C  |   T  |   S  |   R  |   N  |  M   |
  * |------+------+------+------+------+------|------+------+------+------+------+------|
- * | Ctrl |   À  |   Y  |   X  |   .  |   K  |   '  |   Q  |   G  |   H  |   F  |  Ç   |
+ * |Ê/Ctrl|   À  |   Y  |   X  |   .  |   K  |   '  |   Q  |   G  |   H  |   F  |  Ç   |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | Enter| LAlt |Lower | Meta |Shift |    Space    |AltGr | Raise|   %  |   W  | Bksp |
+ * | Enter|      |Lower |Meta/A|Space |    Shift    |AltGr | Raise|   %  |   W  | Bksp |
  * `-----------------------------------------------------------------------------------'
  */
 [_BEPO] = {
-  {BP_DLR,  BP_DQOT, BP_LGIL, BP_RGIL, BP_LPRN, BP_RPRN, BP_AT,   BP_PLUS, BP_MINS, BP_SLSH, BP_ASTR, BP_EQL  },
-  {KC_TAB,  BP_B,    BP_ECUT, BP_P,    BP_O,    BP_EGRV, BP_DCRC, BP_V,    BP_D,    BP_L,    BP_J,    BP_Z    },
-  {KC_ESC,  BP_A,    BP_U,    BP_I,    BP_E,    BP_COMM, BP_C,    BP_T,    BP_S,    BP_R,    BP_N,    BP_M    },
-  {KC_LCTL, BP_AGRV, BP_Y,    BP_X,    BP_DOT,  BP_K,    BP_APOS, BP_Q,    BP_G,    BP_H,    BP_F,    BP_CCED },
-  {KC_ENT,  KC_LALT, LOWER,   KC_LGUI, KC_LSFT, KC_SPC,  KC_SPC,  BP_ALGR, RAISE,   BP_PERC, BP_W,    KC_BSPC }
+  {BP_DLR,         BP_DQOT, BP_LGIL, BP_RGIL, BP_LPRN, BP_RPRN, BP_AT,   BP_PLUS, BP_MINS, BP_SLSH, BP_ASTR, BP_EQL  },
+  {KC_TAB,         BP_B,    BP_ECUT, BP_P,    BP_O,    BP_EGRV, BP_DCRC, BP_V,    BP_D,    BP_L,    BP_J,    BP_Z    },
+  {KC_ESC,         BP_A,    BP_U,    BP_I,    BP_E,    BP_COMM, BP_C,    BP_T,    BP_S,    BP_R,    BP_N,    BP_M    },
+  {CTL_T(BP_ECRC), BP_AGRV, BP_Y,    BP_X,    BP_DOT,  BP_K,    BP_APOS, BP_Q,    BP_G,    BP_H,    BP_F,    BP_CCED },
+  {KC_ENT,         XXXXXXX, LOWER,   TD(MA),  KC_SPC,  KC_LSFT, KC_LSFT, BP_ALGR, RAISE,   BP_PERC, BP_W,    KC_BSPC }
 },
 
 /* Lower
@@ -92,19 +100,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /* Adjust (Lower + Raise)
  * ,-----------------------------------------------------------------------------------.
- * |  F1  |  F2  |  F3  |  F4  |  F5  |  F6  |  F7  |  F8  |  F9  |  F10 |  F11 |  F12 |
+ * | Reset|      |      |      |      |      |      |      |      |      |      |      |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      | Reset|      |      |      |      |      |      |      |      |      |  Del |
+ * |      |      |      |      |      |      |      |      |      |      |      |      |
  * |------+------+------+------+------+-------------+------+------+------+------+------|
- * |      |      |      |Aud on|AudOff|AGnorm|AGswap|Qwerty|Colemk|Dvorak|      |      |
+ * |      |      |      |Aud on|AudOff|      |      | Bépo |      |      |      |      |
  * |------+------+------+------+------+------|------+------+------+------+------+------|
- * |      |Voice-|Voice+|Mus on|MusOff|MidiOn|MidOff|      |      |      |      |      |
+ * |      |Voice-|Voice+|Mus on|MusOff|      |      |      |      |      |      |      |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
  * |      |      |      |      |      |             |      |      |      |      |      |
  * `-----------------------------------------------------------------------------------'
  */
 [_ADJUST] = {
-  {_______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______},
+  {RESET,   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______},
   {_______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______},
   {_______, _______, _______, AU_ON,   AU_OFF,  _______, _______, BEPO,    _______, _______, _______, _______},
   {_______, MUV_DE,  MUV_IN,  MU_ON,   MU_OFF,  _______, _______, _______, _______, _______, _______, _______},
@@ -121,7 +129,6 @@ float tone_startup[][2] = {
   {NOTE_B6, 8}
 };
 
-float tone_gatitac[][2]   = SONG(QWERTY_SOUND);
 float tone_flink[][2]     = SONG(DVORAK_SOUND);
 
 float tone_goodbye[][2] = SONG(GOODBYE_SOUND);
