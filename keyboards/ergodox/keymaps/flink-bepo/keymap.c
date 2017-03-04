@@ -34,11 +34,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *   |      |      | Prev | Play | Next |                                       |      |      |   %  |   W  |      |
  *   `----------------------------------'                                       `----------------------------------'
  *                                        ,-------------.       ,-------------.
- *                                        |META/A| Ctrl |       |Ca/Ctl|  Alt   |
+ *                                        |META  | Alt  |       |Ca/Ctl|  Alt   |
  *                                 ,------|------|------|       |------+--------+------.
  *                                 |      |      |TMP L2|       |TMP L2|        |      |
  *                                 | Space|LShift|------|       |------| RShift | AltGr|
- *                                 |      |      |TMP L1|       |TMP L1|        |      |
+ *                                 | Ctrl |      |TMP L1|       |TMP L1|        |      |
  *                                 `--------------------'       `----------------------'
  */
 // If it accepts an argument (i.e, is a function), it doesn't need KC_.
@@ -50,9 +50,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_ESC,         KC_A,         KC_S,   KC_D,   BP_E,   KC_G,
         BP_ECRC,        KC_Z,         KC_X,   KC_C,   KC_V,   KC_B,   KC_ENT,
         KC_NO,          KC_NO,        KC_MPRV,KC_MPLY,KC_MNXT,
-                                             TD(META_ALT), KC_LCTL,
-                                                           MO(NUML),
-                                      KC_SPC, KC_LSFT,     MO(SPFN),
+                                             TD(META_ALT), KC_LALT,
+                                                           TT(NUML),
+                             CTL_T(KC_SPC), OSM(MOD_LSFT), TT(SPFN),
         // right hand
              KC_DELT,     KC_6,   KC_7,   KC_8,   KC_9,   KC_0,             BP_EQL,
              KC_BSPC,     KC_Y,   KC_U,   KC_I,   KC_O,   KC_P,             KC_LBRC,
@@ -60,8 +60,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
              KC_ENT,      KC_N,   KC_M,   KC_COMM,KC_DOT, KC_SLSH,          FR_ASTR,
                                   KC_NO,  KC_NO,  BP_PERC,BP_W,             KC_NO,
              CTL_T(KC_CALC),  KC_LALT,
-             MO(NUML),
-             MO(SPFN), KC_RSFT,KC_RALT
+             TT(NUML),
+             TT(SPFN), OSM(MOD_LSFT), KC_RALT
     ),
 /* Keymap 1: Symbol Layer
  *
