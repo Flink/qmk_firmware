@@ -51,8 +51,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         BP_ECRC,        KC_Z,         KC_X,   KC_C,   KC_V,   KC_B,   KC_ENT,
         KC_NO,          KC_NO,        KC_MPRV,KC_MPLY,KC_MNXT,
                                              TD(META_ALT), KC_LALT,
-                                                           TT(NUML),
-                             CTL_T(KC_SPC), OSM(MOD_LSFT), TT(SPFN),
+                                                           MO(NUML),
+                             CTL_T(KC_SPC), OSM(MOD_LSFT), MO(SPFN),
         // right hand
              KC_DELT,     KC_6,   KC_7,   KC_8,   KC_9,   KC_0,             BP_EQL,
              KC_BSPC,     KC_Y,   KC_U,   KC_I,   KC_O,   KC_P,             KC_LBRC,
@@ -60,8 +60,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
              KC_ENT,      KC_N,   KC_M,   KC_COMM,KC_DOT, KC_SLSH,          FR_ASTR,
                                   KC_NO,  KC_NO,  BP_PERC,BP_W,             KC_NO,
              CTL_T(KC_CALC),  KC_LALT,
-             TT(NUML),
-             TT(SPFN), OSM(MOD_LSFT), KC_RALT
+             MO(NUML),
+             MO(SPFN), OSM(MOD_LSFT), KC_RALT
     ),
 /* Keymap 1: Symbol Layer
  *
