@@ -18,7 +18,10 @@ enum atomic_keycodes {
   BEPO = SAFE_RANGE,
   LOWER,
   RAISE,
-  BACKLIT
+  BACKLIT,
+  BREATHT,
+  BREATHI,
+  BREATHD
 };
 
 enum tap_dance_keys {
@@ -99,24 +102,24 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /* ADJUST (LOWER + RAISE)
  * .--------------------------------------------------------------------------------------------------------------------------------------.
- * | RESET  |        |        |        |        |        |        |        |        |        |        |        |        |        |        |
- * |--------+--------+--------+--------+--------+--------+        +--------+--------+--------+--------+--------+--------+-----------------|
- * |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |
+ * | RESET  |        |        |        |        |        | Breath |        |        |        |        |        |        |        |        |
+ * |--------+--------+--------+--------+--------+--------+ Speed  +--------+--------+--------+--------+--------+--------+-----------------|
+ * |        |        |        |        |        |        |  inc   |        |        |        |        |        |        |        |        |
  * |--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+-----------------+--------|
- * |        |        |        |        |        |        |        |        |        |        |        |        |        |                 |
- * |        +--------+--------+--------+--------+--------+        +--------+--------+--------+--------+--------------------------+--------|
- * |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |
+ * |        |        |        |        |        |        | Breath |        |        |        |        |        |        |                 |
+ * |        +--------+--------+--------+--------+--------+ Speed  +--------+--------+--------+--------+--------------------------+--------|
+ * |        |        |        |        |        |        |  dec   |        |        |        |        |        |        |        |        |
  * |--------+--------+--------+--------+--------+-----------------+--------+--------+--------+--------+-----------------+--------+--------|
- * |        |        |        |        |                 | Brite  |                 |        |        |        |        |        |        |
+ * |        |        |        |        |   Backlight     | Breath |   Backlight     |        |        |        |        |        |        |
  * '--------------------------------------------------------------------------------------------------------------------------------------'
  */
 
  [_ADJUST] = { /* ADJUST */
-  { RESET,   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______  },
+  { RESET,   _______, _______, _______, _______, _______, BREATHI, _______, _______, _______, _______, _______, _______, _______, _______  },
   { _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______  },
+  { _______, _______, _______, _______, _______, _______, BREATHD, _______, _______, _______, _______, _______, _______, _______, _______  },
   { _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______  },
-  { _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______  },
-  { _______, _______, _______, _______, _______, _______, BACKLIT, _______, _______, _______, _______, _______, _______, _______, _______, },
+  { _______, _______, _______, _______, BACKLIT, _______, BREATHT, _______, BACKLIT, _______, _______, _______, _______, _______, _______, },
  },
 };
 
@@ -139,13 +142,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
           break;
         case LOWER:
           if (record->event.pressed) {
-            breathing_speed_set(2);
-            breathing_enable();
             layer_on(_LW);
             update_tri_layer(_LW, _RS, _ADJUST);
           } else {
-            breathing_speed_set(1);
-            breathing_self_disable();
             layer_off(_LW);
             update_tri_layer(_LW, _RS, _ADJUST);
           }
@@ -153,13 +152,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
           break;
         case RAISE:
           if (record->event.pressed) {
-            breathing_speed_set(3);
-            breathing_enable();
             layer_on(_RS);
             update_tri_layer(_LW, _RS, _ADJUST);
           } else {
-            breathing_speed_set(1);
-            breathing_self_disable();
             layer_off(_RS);
             update_tri_layer(_LW, _RS, _ADJUST);
           }
@@ -171,6 +166,33 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             #ifdef BACKLIGHT_ENABLE
               backlight_step();
             #endif
+          } else {
+            unregister_code(KC_RSFT);
+          }
+          return false;
+          break;
+        case BREATHT:
+          if (record->event.pressed) {
+            register_code(KC_RSFT);
+            breathing_toggle();
+          } else {
+            unregister_code(KC_RSFT);
+          }
+          return false;
+          break;
+        case BREATHI:
+          if (record->event.pressed) {
+            register_code(KC_RSFT);
+            breathing_speed_inc(1);
+          } else {
+            unregister_code(KC_RSFT);
+          }
+          return false;
+          break;
+        case BREATHD:
+          if (record->event.pressed) {
+            register_code(KC_RSFT);
+            breathing_speed_dec(1);
           } else {
             unregister_code(KC_RSFT);
           }
