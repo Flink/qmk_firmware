@@ -1,4 +1,4 @@
-#include "ergodox.h"
+#include QMK_KEYBOARD_H
 #include "debug.h"
 #include "action_layer.h"
 #include "version.h"
@@ -12,11 +12,6 @@
 enum {
   META_ALT = 0,
   CTL_SFT = 1
-};
-
-qk_tap_dance_action_t tap_dance_actions[] = {
-  [META_ALT] = ACTION_TAP_DANCE_DOUBLE(KC_LGUI, KC_LALT),
-  [CTL_SFT]  = ACTION_TAP_DANCE_DOUBLE(KC_LCTL, KC_LSFT)
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
