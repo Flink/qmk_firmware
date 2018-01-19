@@ -9,6 +9,8 @@
 #define SPFN 1 // space fn layer
 #define NUML 2 // numeric layer
 
+#define OSM_SFT OSM(MOD_LSFT)
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* Keymap 0: Basic layer
  *
@@ -42,7 +44,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_NO,          KC_NO,        KC_MPRV,KC_MPLY,KC_MNXT,
                                                    KC_LGUI, KC_LALT,
                                                            MO(NUML),
-                             CTL_T(KC_SPC), KC_LSFT, MO(SPFN),
+                             CTL_T(KC_SPC), OSM_SFT, MO(SPFN),
         // right hand
              KC_DELT,     KC_6,   KC_7,   KC_8,   KC_9,   KC_0,             BP_EQL,
              KC_BSPC,     KC_Y,   KC_U,   KC_I,   KC_O,   KC_P,             KC_LBRC,
@@ -51,7 +53,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                   KC_NO,  KC_NO,  BP_PERC,BP_W,             KC_NO,
              CTL_T(KC_CALC),  KC_LALT,
              MO(NUML),
-             MO(SPFN), KC_RSFT, KC_RALT
+             MO(SPFN), OSM_SFT, KC_RALT
     ),
 /* Keymap 1: Symbol Layer
  *
