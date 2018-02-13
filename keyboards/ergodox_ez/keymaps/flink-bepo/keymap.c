@@ -8,6 +8,7 @@
 #define BASE 0 // default layer
 #define SPFN 1 // space fn layer
 #define NUML 2 // numeric layer
+#define DACT 3 // Dactylotest layer :D
 
 #define OSM_SFT OSM(MOD_LSFT)
 
@@ -23,7 +24,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |--------+------+------+------+------+------| Enter|           |Enter |------+------+------+------+------+--------|
  * |   Ê    |   À  |   Y  |   X  |   .  |   K  |      |           |      |   '  |   Q  |   G  |   H  |   F  |   Ç    |
  * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
- *   |      |      | Prev | Play | Next |                                       |      |      |   %  |   W  |      |
+ *   |DACTL |      | Prev | Play | Next |                                       |      |      |   %  |   W  |      |
  *   `----------------------------------'                                       `----------------------------------'
  *                                        ,-------------.       ,-------------.
  *                                        |META  | Alt  |       |Ca/Ctl|  Alt   |
@@ -41,7 +42,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TAB,         KC_Q,         KC_W,   KC_E,   KC_R,   KC_T,   KC_BSPC,
         KC_ESC,         KC_A,         KC_S,   KC_D,   BP_E,   KC_G,
         BP_ECRC,        KC_Z,         KC_X,   KC_C,   KC_V,   KC_B,   KC_ENT,
-        KC_NO,          KC_NO,        KC_MPRV,KC_MPLY,KC_MNXT,
+        TO(DACT),       KC_NO,        KC_MPRV,KC_MPLY,KC_MNXT,
                                                    KC_LGUI, KC_LALT,
                                                            MO(NUML),
                              CTL_T(KC_SPC), OSM_SFT, MO(SPFN),
@@ -139,6 +140,47 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
        KC_TRNS,
        KC_TRNS, KC_PDOT, KC_P0
 ),
+/* Keymap 3: Dactylotest layer
+ *
+ * ,--------------------------------------------------.           ,--------------------------------------------------.
+ * |   $    |   "  |   «  |   »  |   (  |   )  | Del  |           | Del  |   @  |   +  |   -  |   /  |   *  |   =    |
+ * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
+ * | Tab    |   B  |   É  |   P  |   O  |   È  | BkSp |           | BkSp |   ^  |   V  |   D  |   L  |   J  |   Z    |
+ * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
+ * | Escape |   A  |   U  |   I  |   E  |   ,  |------|           |------|   C  |   T  |   S  |   R  |   N  |   M    |
+ * |--------+------+------+------+------+------| Enter|           |Enter |------+------+------+------+------+--------|
+ * |   Ê    |   À  |   Y  |   X  |   .  |   K  |      |           |      |   '  |   Q  |   G  |   H  |   F  |   Ç    |
+ * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
+ *   |BASE  |      |      |      |      |                                       |      |      |   %  |   W  |      |
+ *   `----------------------------------'                                       `----------------------------------'
+ *                                        ,-------------.       ,-------------.
+ *                                        |META  | Alt  |       |Ca/Ctl|  Alt   |
+ *                                 ,------|------|------|       |------+--------+------.
+ *                                 |      |      |      |       |      |        |      |
+ *                                 | Space|LShift|------|       |------| RShift | AltGr|
+ *                                 |      |      |      |       |      |        |      |
+ *                                 `--------------------'       `----------------------'
+ */
+[DACT] = KEYMAP(  // layer 3 : Dactylotest
+        // left hand
+        BP_DLR,         KC_1,         KC_2,   KC_3,   KC_4,   KC_5,   KC_DELT,
+        KC_TAB,         KC_Q,         KC_W,   KC_E,   KC_R,   KC_T,   KC_BSPC,
+        KC_ESC,         KC_A,         KC_S,   KC_D,   BP_E,   KC_G,
+        BP_ECRC,        KC_Z,         KC_X,   KC_C,   KC_V,   KC_B,   KC_ENT,
+        TO(BASE),       KC_NO,        KC_NO,  KC_NO,  KC_NO,
+                                                   KC_LGUI, KC_LALT,
+                                                              KC_NO,
+                                             KC_SPC, OSM_SFT, KC_NO,
+        // right hand
+             KC_DELT,     KC_6,   KC_7,   KC_8,   KC_9,   KC_0,             BP_EQL,
+             KC_BSPC,     KC_Y,   KC_U,   KC_I,   KC_O,   KC_P,             KC_LBRC,
+                          KC_H,   KC_J,   KC_K,   KC_L,   KC_SCLN,          KC_QUOT,
+             KC_ENT,      KC_N,   KC_M,   KC_COMM,KC_DOT, KC_SLSH,          FR_ASTR,
+                                  KC_NO,  KC_NO,  BP_PERC,BP_W,             KC_NO,
+             CTL_T(KC_CALC),  KC_LALT,
+             KC_NO,
+             KC_NO, OSM_SFT, KC_RALT
+    ),
 };
 
 const uint16_t PROGMEM fn_actions[] = {
