@@ -6,6 +6,10 @@
   #include "audio.h"
 #endif
 
+void set_default_rgb_color(void);
+void set_lower_color(void);
+void set_raise_color(void);
+
 extern keymap_config_t keymap_config;
 
 // Each layer gets a name for readability, which is then used in the keymap matrix below.
@@ -129,6 +133,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case BEPO:
       if (record->event.pressed) {
         persistent_default_layer_set(1UL<<_BEPO);
+        set_default_rgb_color();
       }
       return false;
       break;
@@ -136,9 +141,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       if (record->event.pressed) {
         layer_on(_LOWER);
         update_tri_layer(_LOWER, _RAISE, _ADJUST);
+        set_lower_color();
       } else {
         layer_off(_LOWER);
         update_tri_layer(_LOWER, _RAISE, _ADJUST);
+        set_default_rgb_color();
       }
       return false;
       break;
@@ -146,9 +153,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       if (record->event.pressed) {
         layer_on(_RAISE);
         update_tri_layer(_LOWER, _RAISE, _ADJUST);
+        set_raise_color();
       } else {
         layer_off(_RAISE);
         update_tri_layer(_LOWER, _RAISE, _ADJUST);
+        set_default_rgb_color();
       }
       return false;
       break;
@@ -166,4 +175,20 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 void matrix_init_user(void) {
   persistent_default_layer_set(1UL<<_BEPO);
+  set_default_rgb_color();
+}
+
+void set_default_rgb_color(void) {
+  // purple-ish
+  rgblight_sethsv(270, 241, 238);
+}
+
+void set_lower_color(void) {
+  // bluish
+  rgblight_sethsv(220, 241, 238);
+}
+
+void set_raise_color(void) {
+  // redish
+  rgblight_sethsv(326, 241, 238);
 }
