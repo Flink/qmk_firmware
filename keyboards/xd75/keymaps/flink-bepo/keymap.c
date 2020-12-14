@@ -6,11 +6,13 @@
   #include "audio.h"
 #endif
 
-void set_default_rgb_color(void);
 void set_lower_color(void);
 void set_raise_color(void);
+void save_current_color(void);
+void restore_color(void);
 
 extern keymap_config_t keymap_config;
+rgblight_config_t previous_color;
 
 // Each layer gets a name for readability, which is then used in the keymap matrix below.
 // The underscores don't mean anything - you can have a layer called STUFF or any other name.
@@ -133,7 +135,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case BEPO:
       if (record->event.pressed) {
         persistent_default_layer_set(1UL<<_BEPO);
-        set_default_rgb_color();
       }
       return false;
       break;
@@ -145,7 +146,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       } else {
         layer_off(_LOWER);
         update_tri_layer(_LOWER, _RAISE, _ADJUST);
-        set_default_rgb_color();
+        restore_color();
       }
       return false;
       break;
@@ -157,7 +158,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       } else {
         layer_off(_RAISE);
         update_tri_layer(_LOWER, _RAISE, _ADJUST);
-        set_default_rgb_color();
+        restore_color();
       }
       return false;
       break;
@@ -169,26 +170,78 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       }
       return false;
       break;
+    case RGB_HUI:
+      if (record->event.pressed) {
+        rgblight_increase_hue();
+        save_current_color();
+      }
+      return false;
+      break;
+    case RGB_HUD:
+      if (record->event.pressed) {
+        rgblight_decrease_hue();
+        save_current_color();
+      }
+      return false;
+      break;
+    case RGB_SAI:
+      if (record->event.pressed) {
+        rgblight_increase_sat();
+        save_current_color();
+      }
+      return false;
+      break;
+    case RGB_SAD:
+      if (record->event.pressed) {
+        rgblight_decrease_sat();
+        save_current_color();
+      }
+      return false;
+      break;
+    case RGB_VAI:
+      if (record->event.pressed) {
+        rgblight_increase_val();
+        save_current_color();
+      }
+      return false;
+      break;
+    case RGB_VAD:
+      if (record->event.pressed) {
+        rgblight_decrease_val();
+        save_current_color();
+      }
+      return false;
+      break;
   }
   return true;
 }
 
 void matrix_init_user(void) {
   persistent_default_layer_set(1UL<<_BEPO);
-  set_default_rgb_color();
 }
 
-void set_default_rgb_color(void) {
-  // purple-ish
-  rgblight_sethsv(270, 241, 238);
+void save_current_color(void) {
+  previous_color.hue = rgblight_get_hue();
+  previous_color.sat = rgblight_get_sat();
+  previous_color.val = rgblight_get_val();
+}
+
+void restore_color(void) {
+  rgblight_sethsv(previous_color.hue, previous_color.sat, previous_color.val);
 }
 
 void set_lower_color(void) {
-  // bluish
-  rgblight_sethsv(220, 241, 238);
+  uint16_t hue;
+  save_current_color();
+  hue = previous_color.hue - 50;
+  if (hue < 0) { hue += 360; }
+  hue %= 360;
+  rgblight_sethsv(hue, previous_color.sat, previous_color.val);
 }
 
 void set_raise_color(void) {
-  // redish
-  rgblight_sethsv(326, 241, 238);
+  uint16_t hue;
+  save_current_color();
+  hue = (previous_color.hue + 50) % 360;
+  rgblight_sethsv(hue, previous_color.sat, previous_color.val);
 }
